@@ -396,17 +396,39 @@ html.split body{position:relative;width:var(--splitL,50vw);height:100vh;overflow
 .splitbar .ib{position:relative;width:26px;height:26px;border-radius:50%;background:#fff;color:#1E2433;border:1px solid rgba(30,36,51,.2);box-shadow:0 1px 4px rgba(0,0,0,.18);font:700 13px system-ui;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0}
 .splitbar .ib svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2.4}
 .livebox.badgebox{width:min(760px,calc(100cqw - 24px));max-width:none;max-height:calc(100vh - 60px);display:flex;flex-direction:column;padding:0 !important;overflow:hidden}
-.bdhead{display:flex;align-items:flex-start;gap:10px;padding:16px 16px 8px 20px}.bdhead>div{flex:1}.bdhead h3{margin:0;font:700 19px var(--font)}.bdhead p{margin:2px 0 0}
 .bdscroll{overflow-y:auto;padding:0 20px 16px}.bdscroll h4{margin:14px 0 8px;font:700 12px var(--font);text-transform:uppercase;letter-spacing:.06em;opacity:.55}
 .bdgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:12px 8px}
-.bdg{display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px}.bdg>i{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font:800 22px var(--font);font-style:normal;border:3px solid;box-sizing:border-box}
-.bdg>i svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.8}
-.bdg b{font:600 12.5px var(--font);line-height:1.2}.bdg small{font:500 11px/1.3 var(--font);opacity:.6}
-.bdg.locked>i{border:2px dashed var(--ui-border);color:var(--ui-text);opacity:.45}.bdg.locked b{opacity:.6}
-.bdg.t1>i{background:#F3E0CF;border-color:#B87333;color:#8A4F1D}.bdg.t2>i{background:#EEF0F4;border-color:#9AA3B2;color:#555E6E}
-.bdg.t3>i{background:#FFF2C6;border-color:#D6A23C;color:#8A6412}.bdg.t4>i{background:#E3F4F8;border-color:#5BB7C9;color:#206B7A}
-.hmbadges{text-align:left;cursor:pointer}.hmbadges .hmof{font:500 14px var(--font);opacity:.6}
-.hmmedals{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}.hmmedals .bdg>i{width:38px;height:38px;border-width:2px}.hmmedals .bdg>i svg{width:18px;height:18px}.hmmedals>span{font:500 12.5px var(--font);opacity:.7}
+.bdhead{display:flex;align-items:center;padding:16px 16px 6px 20px}.bdhead h3{flex:1;margin:0;font:700 19px var(--font)}
+.bdcard{border:1px solid var(--ui-border);border-radius:16px;padding:18px 20px;background:var(--ui-solid)}
+.bdcard h4{margin:18px 0 10px}
+.stkhead{display:flex;align-items:center;gap:16px}.stkhead b{display:block;font:700 26px/1.15 var(--font)}.stkhead span{display:block;font:500 14px var(--font);opacity:.7;margin-top:2px}
+.stkflame{width:62px;height:62px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;background:var(--md-gold-f);color:var(--md-gold-i)}
+.stkflame svg{width:30px;height:30px;fill:currentColor;stroke:none}.stkflame svg path+path{fill:var(--md-gold-f);opacity:.55}.stkflame.off{background:var(--ui-hover);color:var(--ui-text);opacity:.5}
+.stkbars{display:flex;gap:8px;margin:16px 0 4px}.stkbars i,.hmcard .stkbars i{display:block;flex:1;height:9px;min-width:0;width:auto;border-radius:5px;background:var(--ui-border);opacity:1}
+.stkbars i.on{background:#F4B41A}.stkbars i.miss{background:var(--ui-hover);box-shadow:inset 0 0 0 1px var(--ui-border)}.stkbars i.future{opacity:.45}.stkbars i.today:not(.on){box-shadow:inset 0 0 0 1.5px #F4B41A}
+.bdcount{margin:16px 0 12px;font:500 15px var(--font);opacity:.8}
+:root{--md-bronze-f:#F6E3D3;--md-bronze-r:#B87333;--md-bronze-i:#8A4F1D;--md-silver-f:#EEF0F4;--md-silver-r:#A2AAB8;--md-silver-i:#4E5664;--md-gold-f:#FFF0C7;--md-gold-r:#D6A23C;--md-gold-i:#8A6412;
+  --md-plat-f:#E0F4F7;--md-plat-r:#4FB3C6;--md-plat-i:#1F6B7A;--md-done-f:#DFF3E2;--md-done-r:#46A758;--md-done-i:#23672F}
+:root[data-theme="dark"]{--md-bronze-f:#3A2414;--md-bronze-r:#7A4A20;--md-bronze-i:#E3A36B;--md-silver-f:#23262C;--md-silver-r:#5E6572;--md-silver-i:#C9CED8;--md-gold-f:#3A2A0A;--md-gold-r:#8F6412;--md-gold-i:#F2C14E;
+  --md-plat-f:#0F2F35;--md-plat-r:#2F7C8A;--md-plat-i:#7FD3E0;--md-done-f:#0F2A14;--md-done-r:#23692F;--md-done-i:#6FD17F}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--md-bronze-f:#3A2414;--md-bronze-r:#7A4A20;--md-bronze-i:#E3A36B;--md-silver-f:#23262C;--md-silver-r:#5E6572;--md-silver-i:#C9CED8;--md-gold-f:#3A2A0A;--md-gold-r:#8F6412;--md-gold-i:#F2C14E;
+  --md-plat-f:#0F2F35;--md-plat-r:#2F7C8A;--md-plat-i:#7FD3E0;--md-done-f:#0F2A14;--md-done-r:#23692F;--md-done-i:#6FD17F}}
+.bdgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(128px,1fr));gap:18px 10px}
+.bdg{display:flex;flex-direction:column;align-items:center;text-align:center;gap:3px}
+.bdg>i{width:76px;height:76px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-style:normal;border:3px solid var(--r);background:var(--f);color:var(--c);box-sizing:border-box;margin-bottom:6px}
+.bdg>i svg{width:30px;height:30px;fill:none;stroke:currentColor;stroke-width:1.8}
+.bdg b{font:700 14px/1.2 var(--font)}.bdg small{font:500 12.5px/1.3 var(--font);opacity:.62}
+.bdg.t1{--f:var(--md-bronze-f);--r:var(--md-bronze-r);--c:var(--md-bronze-i)}.bdg.t2{--f:var(--md-silver-f);--r:var(--md-silver-r);--c:var(--md-silver-i)}
+.bdg.t3{--f:var(--md-gold-f);--r:var(--md-gold-r);--c:var(--md-gold-i)}.bdg.t4{--f:var(--md-plat-f);--r:var(--md-plat-r);--c:var(--md-plat-i)}.bdg.tdone{--f:var(--md-done-f);--r:var(--md-done-r);--c:var(--md-done-i)}
+.bdg.locked>i{border:2px dashed var(--ui-border);background:transparent;color:var(--ui-text);opacity:.5}.bdg.locked b{font-weight:500;opacity:.6}.bdg.locked small{opacity:.5}
+.hmbadges{text-align:left;cursor:pointer;display:block;grid-column:span 2}@container (max-width:600px){.hmbadges{grid-column:auto}}@media (max-width:600px){.hmbadges{grid-column:auto}}.hmbadges .stkflame{width:46px;height:46px}.hmbadges .stkflame svg{width:23px;height:23px}.hmbadges .stkhead{gap:12px}
+.hmbadges .stkhead b{font-size:19px}.hmbadges .stkhead span{font-size:12.5px}.hmbadges .stkbars{gap:5px;margin:12px 0 0}.hmcard.hmbadges .stkbars i{height:7px}.hmcard.hmbadges>*{align-self:stretch;width:100%;box-sizing:border-box}.hmbadges .bdcount{margin:12px 0 8px;font-size:13px}
+.hmmedals{display:flex;gap:6px;flex-wrap:wrap}.hmmedals .bdg{width:72px}.hmmedals .bdg>i{width:46px;height:46px;border-width:2px;margin-bottom:3px}.hmmedals .bdg>i svg{width:20px;height:20px}
+.hmmedals .bdg b{font-size:11.5px}.hmmedals .bdg small{font-size:10.5px}.hmmedals>span{font:500 12.5px var(--font);opacity:.7}
+.badgetoast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%);z-index:60;display:flex;align-items:center;gap:14px;padding:12px 22px 12px 14px;border-radius:18px;cursor:pointer;max-width:calc(100cqw - 24px)}
+.badgetoast[hidden]{display:none}.badgetoast .bdg>i{width:52px;height:52px;margin:0;border-width:2px}.badgetoast .bdg>i svg{width:23px;height:23px}
+.badgetoast b{display:block;font:700 16.5px var(--font)}.badgetoast span{display:block;font:500 13.5px var(--font);opacity:.7}
+.badgetoast.go{animation:bdgIn .45s cubic-bezier(.2,1.4,.4,1)}@keyframes bdgIn{from{opacity:0;transform:translate(-50%,24px) scale(.92)}to{opacity:1;transform:translate(-50%,0) scale(1)}}
 .buddyquiz{position:fixed;z-index:31;width:min(300px,calc(100cqw - 16px));padding:12px 14px;border-radius:16px;display:flex;flex-direction:column;gap:8px}
 .buddyquiz[hidden]{display:none}.buddyquiz p{margin:0;font:500 13.5px/1.4 var(--font)}.bqtitle{font:700 15px var(--font)}
 .bqhead{display:flex;align-items:center}.bqhead small{flex:1;font:700 11.5px var(--font);opacity:.6}.bqhead .ib{width:28px;height:28px}
@@ -979,6 +1001,7 @@ body.inking .float,body.inking .selbar{opacity:.22;pointer-events:none;transitio
 <div class="popover reactpop" id="reactPop" hidden></div>
 <div class="reactlayer" id="reactLayer" aria-hidden="true"></div>
 <div class="livebox float badgebox" id="badgeBox" hidden role="dialog" aria-label="Badges"></div>
+<div class="float badgetoast" id="badgeToast" hidden role="status"></div>
 <div class="float buddyquiz" id="buddyQuiz" hidden role="dialog" aria-label="Quick quiz"></div>
 <div class="livebox float" id="liveBox" hidden role="dialog" aria-label="Live share"></div>
 <div class="playbar float" id="playBar" hidden></div>
@@ -4069,7 +4092,7 @@ function mathShapeLines(o){
 const PEN_TOOLS = ['pen1','pen2','pen3'];
 const POP_TOOLS = ['bucket','select','pen1','pen2','pen3','hl','eraser','shape','text','note','sticker'];
 const FILE_EXT = '.whiteboard';
-const APP_VERSION = '5.4.0', PUBLISHER = 'Blockdum';
+const APP_VERSION = '5.4.1', PUBLISHER = 'Blockdum';
 const GRID = 32;
 const MIME = 'application/x-whiteboard';
 
@@ -10937,9 +10960,9 @@ function homeDraw(){
         <small>Flashcards</small><b class="big">${due}</b><span>${due ? 'ready to review' : 'nothing due right now'}</span>
         <div class="lvrow"><button class="btn ${due ? 'primary' : ''}" data-hm="cards">${due ? 'Start reviewing' : 'Open flashcards'}</button><button class="btn" data-hm="quiz" title="Three quick cards">Quiz me</button></div>
       </div>
-      ${(() => { const a = achData(), got = BADGES.filter(b => achLevel(b, a) > 0), recent = got.slice().sort((x, y) => (a.got[y.id] || 0) - (a.got[x.id] || 0)).slice(0, 5);
-        return `<button class="hmcard hmbadges" data-hk="badges" data-hm="badges"><small>Badges</small><b class="big">${got.length}<span class="hmof"> of ${BADGES.length}</span></b>
-          <div class="hmmedals">${recent.length ? recent.map(b => `<i class="bdg t${b.tiers ? Math.min(achLevel(b, a), 4) : 3}" title="${esc(b.name)}"><i>${svg(b.icon)}</i></i>`).join('') : '<span>Study, explore and try weird things to earn them</span>'}</div></button>`; })()}
+      ${(() => { const a = achData(), got = BADGES.filter(b => achLevel(b, a) > 0), recent = got.slice().sort((x, y) => (a.got[y.id] || 0) - (a.got[x.id] || 0)).slice(0, 4);
+        return `<button class="hmcard hmbadges" data-hk="badges" data-hm="badges">${streakHTML()}<p class="bdcount">Badges · ${got.length} of ${BADGES.length}</p>
+          <div class="hmmedals">${recent.length ? recent.map(b => { const l = achLevel(b, a); return medalHTML(b, l, b.tiers ? TIER[Math.min(l - 1, 3)] : 'Got it'); }).join('') : '<span>Study, explore and try weird things to earn them</span>'}</div></button>`; })()}
       <div class="hmcard" data-hk="exams">
         <small>Exams</small>
         ${ex.length ? `<b class="big">${ex[0].days === 0 ? 'Today' : ex[0].days}</b><span>${ex[0].days === 0 ? esc(ex[0].name) : `day${ex[0].days === 1 ? '' : 's'} until ${esc(ex[0].name)}`}</span>
@@ -19230,6 +19253,7 @@ addEventListener('keydown', e => {                  // while live: Ctrl+Alt+1 to
 /* ================= badges, streaks and the buddy's quick quizzes =================
    Everything is counted on this computer (prefs.ach). Badges with tiers go bronze → silver → gold (→ platinum).
    The streak forgives one missed day a week, so a rest day doesn't wipe it. Secret badges show as ??? until found. */
+Object.assign(I, { flame:'<path d="M12 21c-4 0-6.5-2.7-6.5-6.2 0-3.2 2.2-5.3 3.6-7 .3 1.6 1 2.8 2.2 3.4C11.5 8 12 5.3 14.2 3c.4 3 5.3 5.6 5.3 11.3C19.5 18.1 16.4 21 12 21z"/><path d="M12 21c-1.8 0-3-1.2-3-3 0-1.7 1.3-2.8 2.2-3.8.3 1.2 1 1.8 1.8 2 .2-1 .6-1.9 1.4-2.7.5 1 1.6 2.3 1.6 4 0 2.1-1.6 3.5-4 3.5z"/>' });
 const SUBJECTS = [['Physics', /phys/i, 'atom'], ['Chemistry', /chem/i, 'flask'], ['Calculus', /calc|math/i, 'calc'], ['English', /engl|essay|poem|novel|shakespeare/i, 'book'], ['DGT', /\bdgt\b|digi|coding|program|software/i, 'chip']];
 const TIER = ['Bronze', 'Silver', 'Gold', 'Platinum'];
 const BADGES = [
@@ -19293,13 +19317,15 @@ function achCheck(ids){                        // after anything counted: announ
     if(l > had){ a.got[b.id + ':l'] = l; a.got[b.id] = a.got[b.id] || Date.now(); fresh.push([b, l]); }
   }
   if(fresh.length === 1) achToast(...fresh[0]);
-  else if(fresh.length > 1){ toast(`🏅 ${fresh.length} new badges`, 'See badges', badgesOpen); if(buddy){ buddy.act = 'dance'; buddy.actT = performance.now(); } }
+  else if(fresh.length > 1) achToast(fresh[fresh.length - 1][0], fresh[fresh.length - 1][1], fresh.length);
   achSave();
 }
-function achToast(b, l){
+function achToast(b, l, many){
   sfx('badge');
-  const tier = b.tiers ? ` · ${TIER[Math.min(l - 1, 3)]}` : '';
-  toast(`🏅 New badge: ${b.name}${tier}`, 'See badges', badgesOpen);
+  const el = $('#badgeToast'), tier = b.tiers ? ` · ${TIER[Math.min(l - 1, 3)]}` : '';
+  el.innerHTML = `<div class="bdg ${medalCls(b, l)}"><i>${svg(b.icon || 'star')}</i></div><div><b>${many ? `${many} new badges` : `New badge: ${esc(b.name)}${tier}`}</b><span>${buddy ? 'Your buddy does a little dance' : 'Tap to see all your badges'}</span></div>`;
+  el.hidden = false; el.classList.remove('go'); void el.offsetWidth; el.classList.add('go');
+  clearTimeout(el._t); el._t = setTimeout(() => { el.hidden = true; }, 5500);
   if(buddy){ buddy.act = 'dance'; buddy.actT = performance.now(); }
   if(!$('#home').hidden) homeDraw();
 }
@@ -19352,21 +19378,46 @@ function achZoom(z){ const t = performance.now(); if(z >= 7.9) achZoomIn = t; if
 function achDie(v){ achDice.push(v); achDice = achDice.slice(-3); if(achDice.length === 3 && achDice.every(x => x === 1)) achOnce('snake'); }
 function achCoin(heads){ achCoinRun = heads ? achCoinRun + 1 : 0; if(achCoinRun >= 5) achOnce('lucky'); }
 function achSecret(k){ if(SECRETS[k]) achOnce('secret-' + k); }
+// one medal: coloured by tier (bronze, silver, gold, platinum), green for one-off badges, dashed while locked
+function medalCls(b, l){ return !l ? 'locked' : b.tiers ? 't' + Math.min(l, 4) : b.goal ? 't3' : 'tdone'; }
+function medalHTML(b, l, sub){
+  const hidden = b.secret && !l;
+  return `<div class="bdg ${medalCls(b, l)}"><i>${hidden ? svg('keys') : svg(b.icon)}</i><b>${esc(hidden ? 'Secret' : b.name)}</b><small>${esc(sub)}</small></div>`;
+}
+function streakWeek(){                        // Monday to Sunday: studied, missed or still to come
+  const log = prefs.focusLog || {}, now = new Date(), mon = new Date(now); mon.setHours(0, 0, 0, 0); mon.setDate(mon.getDate() - ((mon.getDay() + 6) % 7));
+  return [...Array(7)].map((_, i) => { const d = new Date(mon); d.setDate(mon.getDate() + i); const k = dayKey(d), today = dayKey(now) === k;
+    return {on:(log[k] || 0) > 0, future:d > now && !today, today, label:'MTWTFSS'[i]}; });
+}
+function streakHTML(){
+  const st = achStreak(), wk = streakWeek();
+  const line = !st.n ? 'Use the study timer to start a streak'
+    : !st.today ? (st.restLeft ? 'Study today to keep it going (you still have a rest day this week)' : 'Study today to keep it going')
+    : st.restLeft ? '1 rest day left this week, so missing tomorrow won\'t break it' : 'Rest day used this week, so study tomorrow to keep it';
+  return `<div class="stkhead"><div class="stkflame ${st.n ? '' : 'off'}">${svg('flame')}</div><div><b>${st.n} day streak</b><span>${line}</span></div></div>
+    <div class="stkbars">${wk.map(d => `<i class="${d.on ? 'on' : d.future ? 'future' : 'miss'}${d.today ? ' today' : ''}" title="${d.label}"></i>`).join('')}</div>`;
+}
 // the badges window
 function badgesOpen(){
-  closePopovers(); const a = achData(), st = achStreak(), box = $('#badgeBox');
+  closePopovers(); const a = achData(), box = $('#badgeBox');
   const total = BADGES.length, got = BADGES.filter(b => achLevel(b, a) > 0).length;
-  const medal = (b, l) => { const hidden = b.secret && !l, tier = b.tiers ? l : l ? 3 : 0;
+  const sub = (b, l) => {
+    if(b.secret && !l) return 'Keep exploring';
     const unitOf = n => n === 1 ? b.unit.replace(/s$/, '') : b.unit;
-    const prog = b.tiers ? (l < b.tiers.length ? `${Math.floor(b.of(a))} of ${b.tiers[l]} ${unitOf(b.tiers[l])}` : `All the way: ${b.tiers[b.tiers.length - 1]} ${b.unit}`) : b.goal ? `${Math.min(Math.floor(b.of(a)), b.goal)} of ${b.goal}` : '';
-    return `<div class="bdg ${l ? 't' + Math.min(tier, 4) : 'locked'}" title="${esc(hidden ? 'A secret. ' + b.desc : (b.desc || '') + (prog ? ' · ' + prog : ''))}">
-      <i>${hidden ? '?' : svg(b.icon)}</i><b>${esc(hidden ? '???' : b.name)}</b><small>${hidden ? 'Keep exploring' : l ? (b.tiers ? TIER[Math.min(l - 1, 3)] : 'Got it') : esc(b.tiers ? prog : b.goal ? prog : b.desc)}</small></div>`; };
+    if(b.tiers) return l ? (l < b.tiers.length ? `${TIER[Math.min(l - 1, 3)]} · next at ${b.tiers[l]}` : TIER[Math.min(l - 1, 3)]) : `${Math.floor(b.of(a))} of ${b.tiers[0]} ${unitOf(b.tiers[0])}`;
+    if(b.goal) return l ? 'Got it' : `${Math.min(Math.floor(b.of(a)), b.goal).toLocaleString()} of ${b.goal.toLocaleString()}`;
+    return l ? 'Got it' : b.desc;
+  };
+  const tip = (b, l) => b.secret && !l ? 'A secret. ' + b.desc : (b.desc || '') + (b.tiers ? ` · ${b.tiers.join(' / ')} ${b.unit}` : '');
   const groups = [...new Set(BADGES.map(b => b.group))];
-  box.innerHTML = `<div class="bdhead"><div><h3>Badges</h3><p class="note-text">${got} of ${total} · Streak ${st.n} day${st.n === 1 ? '' : 's'}${st.best > st.n ? ` (best ${st.best})` : ''}${st.alive && !st.today ? ' · study today to keep it going' : ''}</p></div><button class="ib" data-bd="close" aria-label="Close">${svg('close')}</button></div>
-    <div class="bdscroll">${groups.map(g => `<h4>${g}</h4><div class="bdgrid">${BADGES.filter(b => b.group === g).map(b => medal(b, achLevel(b, a))).join('')}</div>`).join('')}
-    <p class="note-text" style="max-width:none">Your streak forgives one missed day each week. Subject hours count study-timer time on boards or notebooks with the subject in their name.</p></div>`;
+  box.innerHTML = `<div class="bdhead"><h3>Badges</h3><button class="ib" data-bd="close" aria-label="Close">${svg('close')}</button></div>
+    <div class="bdscroll"><div class="bdcard">${streakHTML()}
+      <p class="bdcount">Badges · ${got} of ${total}</p>
+      ${groups.map(g => `<h4>${g}</h4><div class="bdgrid">${BADGES.filter(b => b.group === g).map(b => { const l = achLevel(b, a); return `<div title="${esc(tip(b, l))}">${medalHTML(b, l, sub(b, l))}</div>`; }).join('')}</div>`).join('')}
+    </div><p class="note-text" style="max-width:none;margin-top:10px">Your streak forgives one missed day each week. Subject hours count study-timer time on boards or notebooks with the subject in their name. Hover a badge to see how to get it.</p></div>`;
   box.hidden = false;
 }
+$('#badgeToast').addEventListener('click', () => { $('#badgeToast').hidden = true; badgesOpen(); });
 $('#badgeBox').addEventListener('click', e => { if(e.target.closest('[data-bd="close"]')) $('#badgeBox').hidden = true; });
 $('#badgeBox').addEventListener('keydown', e => { e.stopPropagation(); if(e.key === 'Escape') $('#badgeBox').hidden = true; });
 

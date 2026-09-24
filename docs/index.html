@@ -382,6 +382,14 @@ body.menuopen #selbar{visibility:hidden !important}
 .hwpop{width:min(520px,calc(100vw - 16px));display:flex;flex-direction:column;gap:10px}.hwpop h3{margin:0;font:700 17px var(--font)}.hwpop p{margin:0}
 .hwpop .hwtext{width:100%;resize:vertical;font:500 16px/1.5 var(--font);min-height:70px}
 .hwpop .hwbtns{display:flex;gap:8px;justify-content:flex-end}.hwpop .hwbtns .btn{flex:none}
+.mwpop .mwsrc{width:100%;font:500 18px var(--font);padding:10px 12px}
+.mwpop .mwlim{display:flex;align-items:center;gap:6px;font:500 12.5px var(--font)}.mwpop .mwlim .mx{width:70px;padding:5px 8px;font-size:13px}.mwpop .mwnote{opacity:.55}
+.mwpop .mwres{display:flex;flex-direction:column;gap:6px}.mwpop .mwrow{display:flex;align-items:center;gap:10px;padding:8px 10px;border:1px solid var(--ui-border);border-radius:10px}
+.mwpop .mwrow b{flex:1;font:600 15.5px var(--font);overflow-wrap:anywhere}.mwpop .mwlab{font:700 11.5px var(--font);opacity:.6;width:82px;flex:none}.mwpop .mwrow .btn{flex:none}.mwpop .mwerr{color:var(--danger)}
+.sblist{display:flex;flex-direction:column;gap:6px;max-height:min(420px,55vh);overflow:auto}
+.sbitem{appearance:none;display:flex;align-items:center;gap:12px;text-align:left;border:1px solid var(--ui-border);background:transparent;color:inherit;border-radius:12px;padding:8px 10px;cursor:pointer;font:inherit}
+.sbitem:hover{border-color:var(--accent);background:var(--accent-soft)}.sbitem img{width:64px;height:40px;object-fit:cover;border-radius:6px;flex:none;border:1px solid var(--ui-border)}
+.sbitem svg{width:26px;height:26px;margin:0 19px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8}.sbitem span{display:flex;flex-direction:column;gap:2px;min-width:0}.sbitem b{font:600 14px var(--font)}.sbitem small{font:500 12px var(--font);opacity:.6}
 .hwalts{display:flex;flex-wrap:wrap;gap:6px;align-items:center}.hwalts small{width:100%;font:600 12px var(--font);opacity:.65}
 .hwalts .chip{appearance:none;border:1px solid var(--ui-border);background:var(--ui-hover);color:inherit;border-radius:999px;padding:4px 10px;font:500 12.5px var(--font);cursor:pointer}.hwalts .chip:hover{border-color:var(--accent);color:var(--accent)}
 .note-text{font-size:12.5px;color:var(--ui-muted);margin:10px 2px 0;max-width:240px;line-height:1.4}
@@ -900,6 +908,7 @@ body.inking .float,body.inking .selbar{opacity:.22;pointer-events:none;transitio
 <div class="popover menu" id="tidyPop" hidden></div>
 <div class="popover menu ctxmenu" id="ctxMenu" hidden role="menu" aria-label="Board menu"></div>
 <div class="popover hwpop" id="hwPop" hidden role="dialog" aria-label="Convert to text"></div>
+<div class="popover hwpop mwpop" id="mathsInkPop" hidden role="dialog" aria-label="Work it out"></div>
 <div class="popover mempop" id="memPop" hidden></div>
 <div class="popover layerpop" id="layerPop" hidden></div>
 <div class="popover" id="bgPop" hidden></div>
@@ -3981,7 +3990,7 @@ function mathShapeLines(o){
 const PEN_TOOLS = ['pen1','pen2','pen3'];
 const POP_TOOLS = ['bucket','select','pen1','pen2','pen3','hl','eraser','shape','text','note','sticker'];
 const FILE_EXT = '.whiteboard';
-const APP_VERSION = '5.0.1', PUBLISHER = 'Blockdum';
+const APP_VERSION = '5.1.0', PUBLISHER = 'Blockdum';
 const GRID = 32;
 const MIME = 'application/x-whiteboard';
 
@@ -4015,7 +4024,7 @@ function loadPrefs(){
     const p = JSON.parse(localStorage.getItem('wb-prefs') || 'null');
     if(p && p.tools){
       for(const k in def.tools) def.tools[k] = Object.assign(def.tools[k], p.tools[k] || {});
-      for(const k of ['touchDraw','touchDrawSet','penSeen','inkShape','theme','minimap','snap','mirror','focusLog','pen','pageLayout','penCal','mathDeg','penVer','measureKeep','shareName','shareAddr','exams','homeBg','startHome','splash','calcSci','calcSf','calcFrac','examMins','examLog','breakMins','examAllow','examStages','codeLang','raceN','raceOrder','raceAlgos','raceSpeed','raceSound','handName','keys','accent','sounds','soundVol','autoDark','darkFrom','darkTo','saver','homeTheme','buddy','buddySize','buddyPos','buddyQuiet','buddyStyle','buddyName','buddySkin','buddyHair','mfTwice','birthday','bdayAsked','buddyBest','secret','plan','backupDir','backupEvery','lastBackup','secretsFound','buddyCrown','penSteady','spinItems','spinRemove','simVals','rainTown','raining','schoolCols','schoolText','wx','clockPill','menuSec','buddyOutfit','penButton','penTilt','scribble','penPresetsOn','penPresets','pace','favTools','magnifier','autoUnderline','relayUrl','hwSearch','hwLang','ctxMenu']) if(p[k] !== undefined) def[k] = p[k];
+      for(const k of ['touchDraw','touchDrawSet','penSeen','inkShape','theme','minimap','snap','mirror','focusLog','pen','pageLayout','penCal','mathDeg','penVer','measureKeep','shareName','shareAddr','exams','homeBg','startHome','splash','calcSci','calcSf','calcFrac','examMins','examLog','breakMins','examAllow','examStages','codeLang','raceN','raceOrder','raceAlgos','raceSpeed','raceSound','handName','keys','accent','sounds','soundVol','autoDark','darkFrom','darkTo','saver','homeTheme','buddy','buddySize','buddyPos','buddyQuiet','buddyStyle','buddyName','buddySkin','buddyHair','mfTwice','birthday','bdayAsked','buddyBest','secret','plan','backupDir','backupEvery','lastBackup','secretsFound','buddyCrown','penSteady','spinItems','spinRemove','simVals','rainTown','raining','schoolCols','schoolText','wx','clockPill','menuSec','buddyOutfit','penButton','penTilt','scribble','penPresetsOn','penPresets','pace','favTools','magnifier','autoUnderline','relayUrl','hwSearch','hwLang','ctxMenu','inkMaths']) if(p[k] !== undefined) def[k] = p[k];
       if(![2, 3, 4].includes(def.penVer)){ def.pen = {min:6, max:250, curve:160}; def.penVer = 4; }
       if(def.penVer === 2){ const q = def.pen || {}; if(q.min === 10 && q.max === 300 && q.curve === 100) def.pen = {min:5, max:300, curve:125}; def.penVer = 3; }   // 3.9: thinner light touches, unless you changed the sliders yourself
       if(p.homeTheme === undefined) def.homeTheme = 'auto';        // 4.11: seasonal and holiday themes on the home screen, on to start with
@@ -5025,10 +5034,11 @@ function render(){
   const v = board.view;
   ctx.setTransform(DPR,0,0,DPR,0,0);
   ctx.fillStyle = bgInfo().c; ctx.fillRect(0,0,W,H);
-  drawPattern();
-  if(bgInfo().decor){ ctx.setTransform(DPR,0,0,DPR,0,0); drawDecor(ctx, bgInfo().decor, W, H, bgInfo().dark ? 0.4 : 0.32, true); }
+  if(!(board.pages && board.pages.style === 'notebook')) drawPattern();
+  if(bgInfo().decor && !(board.pages && board.pages.style === 'notebook')){ ctx.setTransform(DPR,0,0,DPR,0,0); drawDecor(ctx, bgInfo().decor, W, H, bgInfo().dark ? 0.4 : 0.32, true); }
+  if(board.pages) drawPages();
   ctx.setTransform(DPR*v.z,0,0,DPR*v.z,DPR*v.x,DPR*v.y);
-  const tl = toWorld(0,0), br = toWorld(W,H);
+  const tl = toWorld(0,0), br = toWorld(W,H), pageClip = board.pages ? clipToPages(ctx) : false;
   renderMap = new Map(board.objects.map(o => [o.id, o]));
   frameNo++;
   const rp = replay ? replayStep() : null;
@@ -5053,6 +5063,7 @@ function render(){
   if(board.objects.length > 600 && frameNo % 200 === 0){
     for(const o of board.objects) if(frameNo - (o._f || 0) > 200){ delete o._paths; delete o._bp; delete o._cc; }   // rebuilt in a blink when needed
   }
+  if(pageClip) ctx.restore();
   drawLiveOverlay();
   renderMap = null;
   if(cropping) drawCropOverlay();
@@ -5360,6 +5371,7 @@ async function renderSettings(){
       <p class="hwstatus" id="hwStatus">Checking Windows handwriting…</p>
       <div class="prow"><span>Language</span><select data-hwlang disabled style="max-width:none;min-width:200px"><option>…</option></select><b></b></div>
       <label class="toggle">Search my handwriting<input type="checkbox" data-hwsearch ${prefs.hwSearch !== false ? 'checked' : ''}></label>
+      <label class="toggle">Answer sums when I write =<input type="checkbox" data-inkmaths ${prefs.inkMaths !== false ? 'checked' : ''}></label>
       <p class="note-text" style="max-width:none">Each board's writing is read once and remembered, so searching (Ctrl+F) finds words you wrote by hand. Password-locked boards are never read.</p>
       <h3>Try it</h3>
       <p class="note-text" style="max-width:none">Write a few words in the box. What Windows reads shows underneath.</p>
@@ -5530,6 +5542,7 @@ $('#settings').addEventListener('change', e => {         // pen extras
   else if(t.matches('[data-autoul]')){ prefs.autoUnderline = t.checked; savePrefs(); requestRender(); }
   else if(t.matches('[data-ctxmenu]')){ prefs.ctxMenu = t.checked; savePrefs(); }
   else if(t.matches('[data-hwsearch]')){ prefs.hwSearch = t.checked; savePrefs(); }
+  else if(t.matches('[data-inkmaths]')){ prefs.inkMaths = t.checked; savePrefs(); }
   else if(t.matches('[data-hwlang]')){ prefs.hwLang = t.value; savePrefs(); hwLangSent = false; if(native && native.hwUse) native.hwUse(t.value).then(() => { hwLangSent = true; hwIdx.clear(); try{ localStorage.removeItem('wb-hwidx'); }catch(e){} hwPadRead(); }); }
   else if(t.matches('[data-lvnameset]')){ prefs.shareName = t.value.trim().slice(0, 30); savePrefs(); }
 });
@@ -9930,7 +9943,7 @@ function renderStatus(){
 }
 function scheduleSave(){ dirty = true; libState = 'saving'; renderStatus(); clearTimeout(saveTimer); saveTimer = setTimeout(saveNow, 700); }
 function serialize(b){
-  return JSON.stringify({app:'whiteboard', v:2, name:b.name, bg:b.bg, pattern:b.pattern, layers:b.layers, activeLayer:b.activeLayer, decks:b.decks, recordings:b.recordings, objects:b.objects},
+  return JSON.stringify({app:'whiteboard', v:2, name:b.name, bg:b.bg, pattern:b.pattern, pages:b.pages, layers:b.layers, activeLayer:b.activeLayer, decks:b.decks, recordings:b.recordings, objects:b.objects},
     (k,v) => (k[0] === '_' ? undefined : v));
 }
 async function saveNow(){
@@ -10123,7 +10136,7 @@ async function openBoard(id){
   board = {id, name:data.name || m.name, bg:BGS[data.bg] ? data.bg : 'paper', pattern:data.pattern || 'dots',
     objects:(data.objects || []).filter(o => o && o.type), view:{x:W/2, y:H/2, z:1},
     layers:Array.isArray(data.layers) && data.layers.length ? data.layers : null, activeLayer:data.activeLayer,
-    decks:Array.isArray(data.decks) ? data.decks : undefined, recordings:Array.isArray(data.recordings) ? data.recordings : undefined};
+    decks:Array.isArray(data.decks) ? data.decks : undefined, recordings:Array.isArray(data.recordings) ? data.recordings : undefined, pages:data.pages && typeof data.pages === 'object' ? data.pages : undefined};
   normLayers();
   selection.clear(); history = []; future = []; histCost = []; histBytes = 0; action = null; fileState = 'saved';
   imgCache.clear(); lastSnap.clear();        // let the old board's pictures go
@@ -10179,6 +10192,7 @@ async function syncBoard(){
   if(data.name) board.name = data.name;
   if(BGS[data.bg]) board.bg = data.bg;
   if(data.pattern) board.pattern = data.pattern;
+  board.pages = data.pages && typeof data.pages === 'object' ? data.pages : undefined;
   if(Array.isArray(data.layers) && data.layers.length){ board.layers = data.layers; normLayers(); }
   for(const idd of [...selection]) if(!board.objects.some(o => o.id === idd)) selection.delete(idd);
   syncBase = incIds;
@@ -10398,7 +10412,7 @@ async function copyRecordings(data){
    unless they choose Keep a copy. */
 let live = null;
 const liveSer = o => JSON.stringify(o, (k, v) => k[0] === '_' ? undefined : v);
-const liveMetaOf = () => ({name:board.name, bg:board.bg, pattern:board.pattern, layers:board.layers});
+const liveMetaOf = () => ({name:board.name, bg:board.bg, pattern:board.pattern, layers:board.layers, pages:board.pages || null});
 function liveBaseline(){
   live.known = new Map(board.objects.map(o => [o.id, liveSer(o)]));
   live.orderSig = board.objects.map(o => o.id).join(','); live.metaSig = JSON.stringify(liveMetaOf());
@@ -10433,7 +10447,7 @@ function liveApply(m){
   }
   if(m.del){ const gone = new Set(m.del); board.objects = board.objects.filter(o => !gone.has(o.id)); for(const id of gone){ live.known.delete(id); selection.delete(id); } }
   if(m.order){ const pos = new Map(m.order.map((id, i) => [id, i])); board.objects.sort((a, b) => (pos.has(a.id) ? pos.get(a.id) : 1e9) - (pos.has(b.id) ? pos.get(b.id) : 1e9)); }
-  if(m.meta){ const mt = m.meta; if(mt.name){ board.name = mt.name; $('#nameInput').value = board.name; updateTitle(); } if(BGS[mt.bg]) board.bg = mt.bg; if(mt.pattern) board.pattern = mt.pattern; if(Array.isArray(mt.layers) && mt.layers.length){ board.layers = mt.layers; normLayers(); } updatePatternBtn(); }
+  if(m.meta){ const mt = m.meta; if(mt.name){ board.name = mt.name; $('#nameInput').value = board.name; updateTitle(); } if(BGS[mt.bg]) board.bg = mt.bg; if(mt.pattern) board.pattern = mt.pattern; if('pages' in mt) board.pages = mt.pages || undefined; if(Array.isArray(mt.layers) && mt.layers.length){ board.layers = mt.layers; normLayers(); } updatePatternBtn(); }
   live.orderSig = live.lastSig = board.objects.map(o => o.id).join(','); live.metaSig = JSON.stringify(liveMetaOf());
   for(const id of [...selection]) if(!board.objects.some(o => o.id === id)) selection.delete(id);
   live.applying = false;
@@ -10443,7 +10457,7 @@ function liveApply(m){
 function liveGuestBoard(snap){
   const mt = snap.meta || {};
   board = {id:'live-' + uid(), liveTemp:true, name:mt.name || 'Shared board', bg:BGS[mt.bg] ? mt.bg : 'paper', pattern:mt.pattern || 'dots',
-    objects:(snap.objects || []).filter(o => o && o.type), view:{x:W/2, y:H/2, z:1}, layers:Array.isArray(mt.layers) && mt.layers.length ? mt.layers : null};
+    objects:(snap.objects || []).filter(o => o && o.type), view:{x:W/2, y:H/2, z:1}, layers:Array.isArray(mt.layers) && mt.layers.length ? mt.layers : null, pages:mt.pages || undefined};
   normLayers();
   selection.clear(); history = []; future = []; histCost = []; histBytes = 0; action = null; dirty = false;
   imgCache.clear(); if(board.objects.length) fitView();
@@ -12646,7 +12660,7 @@ function classStart(){
 function classStop(){
   if(!cls) return; liveSend({t:'class', on:false}); cls = null; $('#classBox').hidden = true; toast('Class mode is off. Everyone is back on the shared board.');
 }
-const liveSnapshot = () => ({meta:{name:board.name, bg:board.bg, pattern:board.pattern}, objects:board.objects.map(o => JSON.parse(JSON.stringify(o, (k, v) => k[0] === '_' ? undefined : v)))});
+const liveSnapshot = () => ({meta:{name:board.name, bg:board.bg, pattern:board.pattern, pages:board.pages || null}, objects:board.objects.map(o => JSON.parse(JSON.stringify(o, (k, v) => k[0] === '_' ? undefined : v)))});
 function classBoxDraw(){
   const el = $('#classBox'); if(!cls){ el.hidden = true; return; }
   el.hidden = false;
@@ -14767,7 +14781,7 @@ function openMorePop(){
     <div class="mscroll">
     ${sec('Study', `${tile('study', 'cards', 'Flashcards')}${tile('focus', 'focus', 'Study timer')}${tile('plan', 'check', 'Revision plan', 'title="A day-by-day plan up to your exams"')}${tile('mkcards', 'cards', 'Make cards', 'title="Turn this page\'s notes into flashcards"')}${tile('exam', 'focus', exam ? 'Finish exam' : 'Exam mode', 'title="Timed practice under exam conditions"')}${tile('mistakes', 'check', 'Mistake log', 'title="What went wrong, and the fix"')}${tile('maths', 'maths', 'Maths', 'title="Calculator, solver, calculus and chemistry"')}${tile('writing', 'pen', 'Writing help', 'title="Word bank, sentence starters and techniques"')}${tile('quotes', 'book', 'Quote bank', 'title="Quotes, techniques and themes for English"')}${tile('record', 'mic', 'Record audio', 'title="Record your voice while you write"')}${board && board.recordings && board.recordings.length ? tile('recordings', 'play', 'Recordings', 'title="Play back with the writing"') : ''}`)}
     ${sec('Board', `${tile('templates', 'tpl', 'Templates')}${tile('pdfwrite', 'pdfpen', 'PDF / slides', 'title="Bring in a PDF or PowerPoint to write on"')}${tile('present', 'play', 'Present')}${tile('replay', 'replay', 'Replay')}${tile('versions', 'history', 'History')}${tile('timelapse', 'replay', 'Time-lapse video', 'title="Save the board being drawn as a video"')}${tile('linkshere', 'newwin', 'Links here', 'title="Boards that link to this one with [[its name]]"')}${tile('recent', 'focus', 'Recent edits', 'title="Jump back to where you were just working"')}${tile('handin', 'download', 'Hand-in PDF', 'title="A PDF with your name and the date on every page"')}${tile('msimport', 'upload', 'Import', 'title="Import from Microsoft Whiteboard: PDF, zip or image"')}${tile('bin', 'trash', 'Recycle bin', 'title="Deleted boards, kept for 30 days"')}`)}
-    ${sec('Tools', `${tile('molecules', 'atom', '3D molecules', 'title="See molecule shapes in 3D (VSEPR)"')}${tile('geometry', 'maths', 'Geometry sandbox', 'title="Build shapes from points and drag them: circle theorems and more"')}${tile('sims', 'atom', 'Physics sims', 'title="Projectiles, pendulums and springs, live"')}${tile('youtube', 'play', 'YouTube video', 'title="Put a YouTube video on the board (or just paste its link)"')}${tile('spinner', 'star', 'Spinner and dice', 'title="Pick something at random"')}${tile('play', 'star', 'Play with buddy', 'title="Fetch, feed or catch the stars"')}${tile('myfont', 'pen', 'My font', 'title="Make a font from your own handwriting"')}${tile('code', 'tpl', 'Code block', 'title="Code with colouring and line numbers"')}${tile('race', 'chip', 'Algorithm race', 'title="Sorting algorithms side by side"')}${tile('shot', 'image', 'Screenshot', 'title="Capture your screen onto the board"')}${tile('magnifier', 'search', prefs.magnifier ? 'Magnifier off' : 'Magnifier', 'title="A lens that follows the pointer"')}${tile('live', 'live', live ? 'Live now' : 'Live share', 'title="Draw together with people on the same Wi-Fi"')}${tile('phonephoto', 'image', 'Phone photo', 'title="Take a photo on your phone and send it to the board"')}${tile('newwin', 'newwin', 'New window', 'title="Open this board in another window, for a second screen (Ctrl Shift N)"')}`)}
+    ${sec('Tools', `${tile('molecules', 'atom', '3D molecules', 'title="See molecule shapes in 3D (VSEPR)"')}${tile('geometry', 'maths', 'Geometry sandbox', 'title="Build shapes from points and drag them: circle theorems and more"')}${tile('sims', 'atom', 'Physics sims', 'title="Projectiles, pendulums and springs, live"')}${tile('youtube', 'play', 'YouTube video', 'title="Put a YouTube video on the board (or just paste its link)"')}${tile('spinner', 'star', 'Spinner and dice', 'title="Pick something at random"')}${tile('play', 'star', 'Play with buddy', 'title="Fetch, feed or catch the stars"')}${tile('myfont', 'pen', 'My font', 'title="Make a font from your own handwriting"')}${tile('code', 'tpl', 'Code block', 'title="Code with colouring and line numbers"')}${tile('race', 'chip', 'Algorithm race', 'title="Sorting algorithms side by side"')}${tile('shot', 'image', 'Screenshot', 'title="Capture your screen onto the board"')}${tile('magnifier', 'search', prefs.magnifier ? 'Magnifier off' : 'Magnifier', 'title="A lens that follows the pointer"')}${tile('live', 'live', live ? 'Live now' : 'Live share', 'title="Draw together with people on the same Wi-Fi"')}${tile('phonephoto', 'image', 'Phone photo', 'title="Take a photo on your phone and send it to the board"')}${tile('pages', 'a4', 'A4 pages', 'title="Pages that print exactly on A4: lined, grid or blank"')}${tile('sideby', 'sideby', 'Side by side', 'title="Two boards next to each other, or the same board twice"')}${tile('newwin', 'newwin', 'New window', 'title="Open this board in another window, for a second screen (Ctrl Shift N)"')}`)}
     ${sec('View', `${tile('home', 'home', 'Home screen', 'title="Shift H"')}${tile('buddy', 'star', prefs.buddy ? 'Study buddy' : 'Get a buddy', 'title="A little animal that studies with you"')}${tile('focusmode', 'focus', 'Focus mode', 'title="Just the board and your pens (Q)"')}${tile('clock', 'focus', prefs.clockPill ? 'Hide the clock' : 'Clock and weather', 'title="A small clock and weather display at the top"')}${tile('zen', 'eye', 'Hide bars', 'title="F"')}${tile('full', 'full', 'Full screen', 'title="F11"')}${tile('keys', 'keys', 'Shortcuts', 'title="?"')}`)}
     </div>
     <div class="mhr"></div>
@@ -14822,6 +14836,8 @@ async function runMenu(k){
     case 'timer': toggleTimer(); break;
     case 'maths': toggleMaths(); break;
     case 'newwin': openNewWindow({board:board.id}); break;
+    case 'pages': pagesOpen(); break;
+    case 'sideby': sideOpen(); break;
     case 'record': startRecording(); break;
     case 'phonephoto': phonePhoto(); break;
     case 'live': openLiveBox(); break;
@@ -14952,6 +14968,7 @@ function renderFrameCanvas(f, maxSide){
 }
 async function exportPDF(){
   commitEditor();
+  if(board.pages && !selection.size){ await exportPagesPDF(); return; }
   const fs = frames();
   if(fs.length && !selection.size){          // one page per slide
     const pages = [];
@@ -18373,6 +18390,8 @@ function endPointer(e, cancelled){
         if(hits){ const gone = new Set([...hits.map(h => h.id), a.o.id]); board.objects = board.objects.filter(q => !gone.has(q.id)); selection.clear(); selectionChanged(); changed();
           toast(`Scribbled out ${hits.length} thing${hits.length === 1 ? '' : 's'}.`, 'Undo', undo); break; }
       }
+      if(a.o && a.o.type === 'stroke' && !cancelled) inkMathsSoon(a.o);
+      if(a.o && !cancelled && board.pages && board.pages.style === 'notebook') pagesGrow(a.o);
       paceNote();
       if(a.snapped){
         const q = a.snapped.o; if(q.pts) for(let i=0;i<q.pts.length;i++) q.pts[i] = Math.round(q.pts[i]*100)/100;
@@ -18736,6 +18755,238 @@ async function hwIndexAll(onStep){
 const d0Locked = m => !!(m.locked || lockKeys.has(m.id));        // password-locked boards stay unread, so their words aren't kept anywhere
 function hwItems(id){ hwIdxLoad(); const m = metas.find(q => q.id === id); if(m && d0Locked(m)){ if(hwIdx.delete(id)) hwIdxSave(); return []; } const x = hwIdx.get(id); return x ? x.lines.map(l => ({id:l.ids[0], ids:l.ids, text:l.text, hw:true})) : []; }
 
+/* ================= maths you write by hand =================
+   Write a sum and an = sign and the answer appears after it, in your handwriting font. Or select some written maths,
+   right-click → Work it out, to solve it, differentiate, integrate or graph it. Windows reads the writing; the maths
+   engine (CAS) does the rest. Exam mode only allows what the exam allows (a graphics calculator by default). */
+Object.assign(I, { workout:'<path d="M4 6h7M7.5 2.5v7M4 17.5h7M14 5l5 5M19 5l-5 5M14 15.5h6M14 19h6"/>' });
+const mathsInkOn = () => hwCan() && prefs.inkMaths !== false;
+// what Windows reads → something the maths engine understands
+function inkToMaths(t){
+  let s = String(t || '').trim()
+    .replace(/[“”"'`’]/g, '').replace(/[—–−]/g, '-').replace(/[÷]/g, '/').replace(/[×·•*]/g, '*').replace(/\s*,\s*(?=\d{3}\b)/g, '')
+    .replace(/\s+/g, ' ');
+  s = s.replace(/(\d)\s*[oO]\b/g, '$10').replace(/\b[oO](?=\d)/g, '0').replace(/(?<=\d)[lI|](?=\d)/g, '1');
+  // x between two numbers is a times sign unless there's other algebra around
+  if(!/[a-wyz]/i.test(s.replace(/\b(sin|cos|tan|ln|log|sqrt|pi|asin|acos|atan|e)\b/gi, ''))) s = s.replace(/(\d|\))\s*[xX]\s*(?=[\d(])/g, '$1*');
+  s = s.replace(/\s*\^\s*/g, '^').replace(/(\d)\s+(?=\d)/g, '$1');
+  return s.trim();
+}
+const mathsVars = s => { try{ const u = CAS.parse(s.replace(/=/g, '+')); const v = new Set(); (function walk(n){ if(!n) return; if(n.t === 'var') v.add(n.n); (n.a || []).forEach(walk); if(n.b) walk(n.b); if(n.e) walk(n.e); if(n.x) walk(n.x); })(u); return v; }catch(e){ return null; } };
+// ---- 1. write "… =" and the answer appears ----
+let inkMathsT = null;
+function inkMathsSoon(o){ if(!mathsInkOn() || !o || o.type !== 'stroke' || o.tool !== 'pen') return; clearTimeout(inkMathsT); inkMathsT = setTimeout(() => inkMathsCheck(o), 900); }
+function isDash(o){ const b = inkBox(o), w = b[2] - b[0], h = b[3] - b[1]; return w > 4 && h < w*0.4; }
+async function inkMathsCheck(last){
+  if(action || !board || !objs().includes(last) || !isDash(last)) return;
+  if(exam && !examAllow().calc) return;
+  const ink = objs().filter(o => isInk(o) && !o.locked), i = ink.indexOf(last);
+  const bl = inkBox(last), wl = bl[2] - bl[0];
+  const mate = ink.slice(Math.max(0, i - 4), i).reverse().find(o => { if(!isDash(o)) return false; const b = inkBox(o), w = b[2] - b[0], ov = Math.min(b[2], bl[2]) - Math.max(b[0], bl[0]);
+    return ov > Math.min(w, wl)*0.55 && Math.abs(w - wl) < Math.max(w, wl)*0.6 && Math.abs((b[1] + b[3])/2 - (bl[1] + bl[3])/2) < Math.max(w, wl)*0.8 && Math.abs((b[1] + b[3])/2 - (bl[1] + bl[3])/2) > 1; });
+  if(!mate) return;                                                     // not an = sign
+  const bm = inkBox(mate), eq = [Math.min(bl[0], bm[0]), Math.min(bl[1], bm[1]), Math.max(bl[2], bm[2]), Math.max(bl[3], bm[3])], cy = (eq[1] + eq[3])/2, ew = eq[2] - eq[0];
+  // the writing on the same line, just before the = sign, with nothing after it
+  const near = ink.filter(o => { if(o === last || o === mate) return false; const b = inkBox(o), c = (b[1] + b[3])/2; return Math.abs(c - cy) < ew*1.6 && b[2] <= eq[0] + ew*0.4 && b[0] > eq[0] - ew*40; });
+  if(ink.some(o => { if(o === last || o === mate) return false; const b = inkBox(o); return b[0] > eq[2] && b[0] < eq[2] + ew*4 && Math.abs((b[1] + b[3])/2 - cy) < ew; })) return;
+  if(!near.length) return;
+  const lines = inkLines([...near, mate, last]), line = lines.find(L => L.strokes.includes(last)) || lines[lines.length - 1];
+  const strokes = line.strokes.filter(o => o !== last && o !== mate);
+  if(!strokes.length) return;
+  let res; try{ res = await hwReadLines([{...line, strokes}]); }catch(e){ return; }
+  const src = inkToMaths((res[0] || {}).text || '').replace(/=+\s*$/, '');
+  if(!src || /=/.test(src)) return;
+  const vs = mathsVars(src); if(!vs || vs.size) return;                   // letters: that's for Work it out
+  let v; try{ v = CAS.calc(src, prefs.mathDeg); }catch(e){ return; }
+  if(!Number.isFinite(v)) return;
+  const lh = Math.max(line.b[3] - line.b[1], line.med*1.2), fs = clamp(Math.round(lh*1.1), 10, 240);
+  pushHistory();
+  const o = {id:uid(), type:'text', x:eq[2] + ew*0.35, y:cy - fs*0.62, text:CAS.numStr(v), color:last.color, fs, font:typeof hasMyFont === 'function' && hasMyFont() ? 'mine' : 'hand', ans:1};
+  if(last.layer !== undefined) o.layer = last.layer;
+  board.objects.push(o); changed();
+  toast(`${src.replace(/\*/g, '×')} = ${o.text}`, 'Undo', undo);
+}
+// ---- 2. right-click → Work it out ----
+let mwork = null;
+async function mathsWorkStart(){
+  const sel = getSelected().filter(isInk), lines = inkLines(sel);
+  let src = '';
+  if(lines.length){ if(!hwCan()){ toast('Reading handwriting needs the Windows app.'); return; }
+    toast('Reading your maths…');
+    try{ src = (await hwReadLines(lines)).map(r => inkToMaths(r.text)).join(', '); }catch(e){ toast(e.message); return; } }
+  const b = unionBounds(getSelected()) || [0, 0, 0, 0];
+  mwork = {b, color:(sel[0] || {}).color || '#ink', layer:(sel[0] || {}).layer};
+  const pop = $('#mathsInkPop');
+  pop.innerHTML = `<h3>Work it out</h3>
+    <p class="note-text" style="max-width:none">This is what Windows read. Fix it if needed: type powers as <code>x^2</code>, square roots as <code>sqrt(x)</code>, and fractions with brackets, like <code>(x+1)/2</code>.</p>
+    <input class="mx mwsrc" spellcheck="false" autocomplete="off" value="${esc(src.replace(/\*/g, '×'))}" placeholder="Like 2x^2 − 3x = 5">
+    <div class="mwlim"><span>From</span><input class="mx" data-mwlo placeholder="a"><span>to</span><input class="mx" data-mwhi placeholder="b"><span class="mwnote">limits, for a definite integral</span></div>
+    <div class="mwres"></div>`;
+  showPopover(pop, null, 'center'); document.body.classList.add('menuopen');
+  const inp = pop.querySelector('.mwsrc'); inp.focus(); inp.setSelectionRange(inp.value.length, inp.value.length);
+  mathsWorkRun();
+}
+const mwPretty = t => { try{ return t.split('=').map(q => CAS.str(CAS.simplify(CAS.parse(q.trim())))).join(' = '); }catch(e){ return t.replace(/\*/g, '×'); } };
+const mwAllowed = k => !exam || (k === 'calc' ? examAllow().calc || examAllow().num : k === 'graph' ? examAllow().graph : k === 'num' ? examAllow().num : examAllow().cas);
+function mathsWorkRun(){
+  const pop = $('#mathsInkPop'); if(!pop || pop.hidden || !mwork) return;
+  const raw = pop.querySelector('.mwsrc').value.replace(/×/g, '*').replace(/÷/g, '/').replace(/−/g, '-').trim(), out = pop.querySelector('.mwres');
+  const lo = pop.querySelector('[data-mwlo]').value.trim(), hi = pop.querySelector('[data-mwhi]').value.trim();
+  const rows = [], blocked = [];
+  const row = (label, text, k, extra = '') => rows.push(`<div class="mwrow"><span class="mwlab">${label}</span><b>${esc(text)}</b>${extra}<button class="btn" data-mwadd="${rows.length}">Add to board</button></div>`);
+  mwork.results = [];
+  const keep = (text, kind, data) => mwork.results.push({text, kind, data});
+  if(!raw){ out.innerHTML = '<p class="note-text">Type or fix the maths above.</p>'; return; }
+  let src = raw.replace(/^d\s*\/\s*d([a-z])\s*/i, (m, v) => { mwork.dvar = v; return ''; }).replace(/^(dy\/dx|d\/dx)\s*/i, '');
+  const wantD = raw !== src;
+  const eqs = src.split(/[,;]/).map(q => q.trim()).filter(Boolean), one = eqs.length === 1 ? eqs[0] : null;
+  const vs = mathsVars(src.replace(/=\s*$/, '')), letters = vs ? [...vs] : [];
+  const x = mwork.dvar || (letters.includes('x') ? 'x' : letters[0] || 'x');
+  try{
+    if(vs === null) throw new Error('bad');
+    // a plain sum
+    if(one && !letters.length){ if(mwAllowed('calc')){ const v = CAS.calc(one.replace(/=\s*$/, ''), prefs.mathDeg); row('Answer', '= ' + CAS.numStr(v)); keep('= ' + CAS.numStr(v), 'text'); } else blocked.push('the calculator'); }
+    // y = … : graph it
+    if(one && /^y\s*=/.test(one) && letters.length){ if(mwAllowed('graph')){ row('Graph', mwPretty(one)); keep(one, 'graph', one.replace(/^y\s*=\s*/, '')); } else blocked.push('the graph plotter'); }
+    // an equation, or a few: solve
+    if(letters.length && src.includes('=') && !/=\s*$/.test(src) && !(one && /^y\s*=/.test(one) && letters.length === 1)){
+      if(mwAllowed('num')){ const r = CAS.solve(src); const main = r.steps.filter(s => s.main).map(s => s.p).join('   ');
+        const txt = r.formula ? `${r.x} = ${CAS.str(r.formula)}` : main || (r.roots ? `${r.x} = ${r.roots.map(CAS.numStr).join(', ')}` : '');
+        if(txt){ row('Solve', txt); keep(txt, 'text'); } }
+      else blocked.push('the equation solver');
+    }
+    // an expression: differentiate and integrate
+    if(one && letters.length && !one.includes('=')){
+      const expr = one;
+      if(mwAllowed('cas')){ const d = CAS.differentiate(expr, x); const dt = `d/d${d.x} = ${CAS.str(d.result)}`; row('Differentiate', dt); keep(dt, 'text'); }
+      else if(wantD) blocked.push('working out derivatives');
+      if(lo && hi){ if(mwAllowed('num')){ const r = CAS.integrate(expr, x, lo, hi); const v = r.result ? CAS.evalN(r.result, {}) : NaN; const it = `∫ from ${lo} to ${hi} = ${Number.isFinite(v) ? CAS.numStr(v) : CAS.str(r.result)}`; row('Integrate', it); keep(it, 'text'); } else blocked.push('integrals'); }
+      else if(mwAllowed('cas')){ const r = CAS.integrate(expr, x); if(r.result){ const it = `∫ d${r.x} = ${CAS.str(r.result)} + c`; row('Integrate', it); keep(it, 'text'); } }
+      if(mwAllowed('graph') && letters.length === 1){ row('Graph', 'y = ' + mwPretty(expr)); keep(`y = ${expr}`, 'graph', expr); }
+    }
+  }catch(e){ out.innerHTML = `<p class="note-text mwerr">${esc(e.message && e.message !== 'bad' ? e.message : 'That doesn\'t look like maths yet. Check what Windows read.')}</p>`; return; }
+  out.innerHTML = (rows.length ? rows.join('') : '<p class="note-text">Nothing to work out here yet.</p>') + (blocked.length ? `<p class="note-text mwerr">Not allowed in this exam: ${blocked.join(', ')}.</p>` : '');
+}
+function mathsWorkAdd(i){
+  const r = mwork && mwork.results[i]; if(!r) return;
+  const b = mwork.b, h = Math.max(24, Math.min(80, (b[3] - b[1]) || 40));
+  pushHistory();
+  let o;
+  if(r.kind === 'graph'){ o = {id:uid(), type:'graph', x:b[2] + 30, y:b[1], w:360, h:280, fs:14, fns:[{expr:normPow(r.data), color:GCOL[0]}], xmin:-10, xmax:10, ymin:-10, ymax:10, grid:true}; }
+  else o = {id:uid(), type:'text', x:b[0], y:b[3] + h*0.3, text:r.text.replace(/\*/g, '×'), color:mwork.color, fs:clamp(Math.round(h*0.8), 12, 160), font:typeof hasMyFont === 'function' && hasMyFont() ? 'mine' : 'hand'};
+  if(mwork.layer !== undefined) o.layer = mwork.layer;
+  board.objects.push(o); selection.clear(); selection.add(o.id); setTool('select'); selectionChanged(); changed();
+  mwork.b = [b[0], b[1], b[2], r.kind === 'graph' ? b[3] : b[3] + h*1.3];
+  toast('Added to the board.', 'Undo', undo);
+}
+$('#mathsInkPop').addEventListener('input', () => { clearTimeout(mwork && mwork.t); if(mwork) mwork.t = setTimeout(mathsWorkRun, 250); });
+$('#mathsInkPop').addEventListener('click', e => { const a = e.target.closest('[data-mwadd]'); if(a) mathsWorkAdd(+a.dataset.mwadd); });
+$('#mathsInkPop').addEventListener('keydown', e => { e.stopPropagation(); if(e.key === 'Escape') closePopovers(); });
+
+/* ================= A4 pages =================
+   A board can have A4 pages, laid out one under another. "Notebook" pages hide anything outside them, like paper;
+   "on the board" pages sit on the normal board so you can still write around them. Exporting to PDF gives one exact
+   A4 page per page, with the lines or grid printed too. Stored as board.pages = {orient, paper, n, style}. */
+Object.assign(I, { a4:'<rect x="5" y="3" width="14" height="18" rx="1.5"/><path d="M8 8h8M8 11.5h8M8 15h5"/>', sideby:'<rect x="3" y="4.5" width="8" height="15" rx="1.5"/><rect x="13" y="4.5" width="8" height="15" rx="1.5"/>' });
+const A4_W = 794, A4_H = 1123, A4_GAP = 48;                  // A4 at 96 dots per inch
+const pageSize = P => P.orient === 'landscape' ? [A4_H, A4_W] : [A4_W, A4_H];
+function pageRects(P = board && board.pages){ if(!P) return []; const [w, h] = pageSize(P); return Array.from({length:Math.max(1, P.n || 1)}, (_, i) => ({x:0, y:i*(h + A4_GAP), w, h, i})); }
+function drawPaperLines(c, r, P, dark, px){                        // px: one screen pixel in board units
+  c.save(); c.beginPath(); c.rect(r.x, r.y, r.w, r.h); c.clip();
+  c.lineWidth = Math.max(px, 1); c.strokeStyle = dark ? 'rgba(140,170,255,.22)' : 'rgba(62,99,221,.2)';
+  if(P.paper === 'lined'){ c.beginPath(); for(let y = r.y + 110; y < r.y + r.h - 30; y += 32){ c.moveTo(r.x, y); c.lineTo(r.x + r.w, y); } c.stroke();
+    c.strokeStyle = dark ? 'rgba(255,120,120,.35)' : 'rgba(229,72,77,.4)'; c.beginPath(); c.moveTo(r.x + 88, r.y); c.lineTo(r.x + 88, r.y + r.h); c.stroke(); }
+  else if(P.paper === 'grid'){ c.beginPath(); for(let x = r.x + 37; x < r.x + r.w; x += 20){ c.moveTo(x, r.y); c.lineTo(x, r.y + r.h); } for(let y = r.y + 21; y < r.y + r.h; y += 20){ c.moveTo(r.x, y); c.lineTo(r.x + r.w, y); } c.stroke(); }
+  c.restore();
+}
+// under everything on the board: the sheets (and, for a notebook, a darker desk around them)
+function drawPages(){
+  const P = board.pages; if(!P) return;
+  const v = board.view, info = bgInfo(), rs = pageRects(P);
+  if(P.style === 'notebook'){ ctx.setTransform(DPR, 0, 0, DPR, 0, 0); ctx.fillStyle = info.dark ? 'rgba(0,0,0,.35)' : 'rgba(30,36,51,.1)'; ctx.fillRect(0, 0, W, H); }
+  ctx.setTransform(DPR*v.z, 0, 0, DPR*v.z, DPR*v.x, DPR*v.y);
+  for(const r of rs){
+    ctx.save(); ctx.shadowColor = info.dark ? 'rgba(0,0,0,.5)' : 'rgba(30,36,51,.18)'; ctx.shadowBlur = 18*v.z*DPR; ctx.shadowOffsetY = 3*v.z*DPR;
+    ctx.fillStyle = info.c; ctx.fillRect(r.x, r.y, r.w, r.h); ctx.restore();
+    ctx.strokeStyle = info.dark ? 'rgba(255,255,255,.1)' : 'rgba(30,36,51,.12)'; ctx.lineWidth = 1/v.z; ctx.strokeRect(r.x, r.y, r.w, r.h);
+    drawPaperLines(ctx, r, P, info.dark, 1/v.z);
+    if(v.z > 0.25){ ctx.fillStyle = info.dark ? 'rgba(255,255,255,.35)' : 'rgba(30,36,51,.35)'; ctx.font = `600 ${12/Math.max(v.z, .5)}px ${getComputedStyle(document.body).fontFamily}`; ctx.textAlign = 'right'; ctx.fillText(String(r.i + 1), r.x + r.w - 14, r.y + r.h - 12); ctx.textAlign = 'left'; }
+  }
+}
+function clipToPages(c){ const P = board.pages; if(!P || P.style !== 'notebook') return false; c.save(); c.beginPath(); for(const r of pageRects(P)) c.rect(r.x, r.y, r.w, r.h); c.clip(); return true; }
+// a notebook grows: writing near the bottom of the last page adds another
+function pagesGrow(o){
+  const P = board && board.pages; if(!P || !o) return;
+  const rs = pageRects(P), last = rs[rs.length - 1], b = bounds(o);
+  if(b[3] > last.y + last.h*0.86 && b[1] < last.y + last.h + 20 && P.n < 200){ P.n++; scheduleSave(); liveChanged(); requestRender(); toast(`Added page ${P.n}.`); }
+}
+function pagesOpen(){
+  const P = board.pages || {orient:'portrait', paper:'lined', style:'notebook', n:1}, box = $('#passBox');
+  const seg = (k, opts) => `<div class="seg">${opts.map(([v, l]) => `<button data-pgs="${k}" data-v="${v}" aria-pressed="${P[k] === v}">${l}</button>`).join('')}</div>`;
+  box.innerHTML = `<h3>A4 pages</h3>
+    <p class="note-text" style="max-width:none">Pages that print exactly on A4. Export to PDF gives one page each, lines and all.</p>
+    <div class="lvcard"><b>Paper</b>${seg('paper', [['lined', 'Lined'], ['grid', 'Grid'], ['blank', 'Blank']])}</div>
+    <div class="lvcard"><b>Which way</b>${seg('orient', [['portrait', 'Portrait'], ['landscape', 'Landscape']])}</div>
+    <div class="lvcard"><b>How they work</b>${seg('style', [['notebook', 'Notebook'], ['free', 'On the board']])}
+      <span>${P.style === 'notebook' ? 'Only what\'s on the pages shows, like paper. Writing near the bottom of the last page adds a new one.' : 'Pages sit on the normal board: you can still write around them, and only what\'s on the pages prints.'}</span></div>
+    <div class="lvrow">${board.pages ? `<button class="btn primary" data-pg2="done">Done</button><button class="btn" data-pg2="add">Add a page</button><button class="btn" data-pg2="off">Turn pages off</button>` : `<button class="btn primary" data-pg2="on">Use A4 pages</button><button class="btn" data-pg2="cancel">Cancel</button>`}</div>`;
+  box._pg = {...P}; box.hidden = false;
+}
+$('#passBox').addEventListener('click', e => {
+  const box = $('#passBox'); if(!box._pg) return;
+  const s = e.target.closest('[data-pgs]');
+  if(s){ box._pg[s.dataset.pgs] = s.dataset.v; if(board.pages){ board.pages = {...board.pages, [s.dataset.pgs]:s.dataset.v}; changed(); } const keep = box._pg; pagesOpen(); box._pg = {...keep}; if(!board.pages){ box.querySelectorAll('[data-pgs]').forEach(b => b.setAttribute('aria-pressed', keep[b.dataset.pgs] === b.dataset.v)); } return; }
+  const b = e.target.closest('[data-pg2]'); if(!b) return;
+  const k = b.dataset.pg2;
+  if(k === 'on'){ pushHistory(); board.pages = {...box._pg, n:Math.max(1, box._pg.n || 1)};
+    const ob = objs().length ? unionBounds(objs()) : null;           // make enough pages for what's already there
+    if(ob){ const [pw, ph] = pageSize(board.pages); board.pages.n = clamp(Math.ceil(Math.max(ob[3], 1)/(ph + A4_GAP)), 1, 200); if(ob[0] < 0 || ob[1] < 0 || ob[2] > pw){ const dx = ob[0] < 0 || ob[2] > pw ? 40 - ob[0] : 0, dy = ob[1] < 0 ? 40 - ob[1] : 0; if(dx || dy) for(const o of objs()) translateObj(o, dx, dy); board.pages.n = clamp(Math.ceil((unionBounds(objs())[3])/(ph + A4_GAP)), 1, 200); } }
+    changed(); pagesFit(); }
+  if(k === 'add'){ board.pages.n++; changed(); pagesGo(board.pages.n - 1); }
+  if(k === 'off'){ pushHistory(); delete board.pages; changed(); toast('Pages are off. Your writing is all still there.', 'Undo', undo); }
+  box.hidden = true; box._pg = null;
+});
+function pagesGo(i){ const r = pageRects()[i]; if(!r) return; const z = Math.min((W - 80)/r.w, (H - 150)/r.h, 2); animateView({x:W/2 - (r.x + r.w/2)*z, y:(H - 60)/2 - (r.y + r.h/2)*z + 10, z}); }
+function pagesFit(){ const rs = pageRects(); if(!rs.length) return; const r = rs[0], z = Math.min((W - 80)/r.w, 1); animateView({x:W/2 - (r.x + r.w/2)*z, y:70 - r.y*z, z}); }
+function animateView(to){ if(typeof viewAnim !== 'undefined'){ viewAnim = {from:{...board.view}, to, t0:performance.now(), ms:320}; requestRender(); saveViewSoon(); } else { Object.assign(board.view, to); requestRender(); } }
+function renderPageCanvas(r, P, maxSide){
+  const scale = Math.min(3, maxSide/r.w, maxSide/r.h), c = document.createElement('canvas'); c.width = Math.round(r.w*scale); c.height = Math.round(r.h*scale);
+  const x = c.getContext('2d'); x.fillStyle = bgInfo().c; x.fillRect(0, 0, c.width, c.height);
+  x.setTransform(scale, 0, 0, scale, -r.x*scale, -r.y*scale);
+  drawPaperLines(x, r, P, bgInfo().dark, 1/scale);
+  x.beginPath(); x.rect(r.x, r.y, r.w, r.h); x.clip();
+  for(const o of objs()){ if(o.type === 'frame') continue; const b = bounds(o); if(b[2] < r.x || b[0] > r.x + r.w || b[3] < r.y || b[1] > r.y + r.h) continue; drawObj(x, o, true); }
+  return c;
+}
+async function exportPagesPDF(){
+  const P = board.pages, pages = [];
+  for(const r of pageRects(P)){ const c = renderPageCanvas(r, P, 2480), blob = await new Promise(res => c.toBlob(res, 'image/jpeg', 0.92)); releaseCanvas(c); if(blob) pages.push({jpeg:new Uint8Array(await blob.arrayBuffer()), w:c.width, h:c.height, fit:true}); }
+  if(!pages.length){ toast('Couldn\'t create the PDF.'); return; }
+  await offerDownload(fileName(board.name) + '.pdf', new Blob([makePdf(pages, bgInfo().c)], {type:'application/pdf'}));
+  toast(`Exported ${pages.length} A4 page${pages.length === 1 ? '' : 's'}. Print at 100% ("actual size") for an exact fit.`);
+}
+
+/* ================= side by side =================
+   Puts this window on the left half of the screen and opens another on the right: the same board again (it stays in
+   step, like any second window) or a different one. Closing the right one puts this window back. */
+function sideOpen(){
+  const box = $('#passBox'), list = metas.filter(m => !m.trash && m.id !== board.id).sort((a, b) => b.updated - a.updated).slice(0, 8);
+  box._pg = null;
+  box.innerHTML = `<h3>Side by side</h3>
+    <p class="note-text" style="max-width:none">This window moves to the left half of the screen and the other board opens on the right.</p>
+    <div class="sblist"><button class="sbitem" data-sb2="${esc(board.id)}">${svg('sideby')}<span><b>This board again</b><small>Zoom one side in and keep the other as an overview. Both stay in step.</small></span></button>
+    ${list.map(m => `<button class="sbitem" data-sb2="${esc(m.id)}">${m.thumb ? `<img src="${m.thumb}" alt="">` : svg('file')}<span><b>${esc(m.name)}</b><small>${whenText(m.updated)}</small></span></button>`).join('')}</div>
+    <div class="lvrow"><button class="btn" data-sb2="">Cancel</button></div>`;
+  box.hidden = false;
+}
+$('#passBox').addEventListener('click', async e => {
+  const b = e.target.closest('[data-sb2]'); if(!b) return;
+  $('#passBox').hidden = true; const id = b.dataset.sb2; if(!id) return;
+  commitEditor(); if(dirty) await saveNow();
+  if(native && native.sideBySide){ const r = await native.sideBySide({board:id}).catch(() => null); if(!r || !r.ok) toast('Couldn\'t open it side by side.'); return; }
+  openNewWindow({board:id});
+});
+
 /* ================= the right-click menu ================= */
 let ctxAt = null;
 function ctxItem(k, icon, label, key, extra = ''){ return `<button class="mi" data-cx="${k}" ${extra}>${svg(icon)}<span>${label}</span>${key ? `<kbd>${key}</kbd>` : ''}</button>`; }
@@ -18765,6 +19016,7 @@ function openCtxMenu(e){
       h += `<div class="msec cxhead">Handwriting</div>`;
       if(hwCan()) h += ctxItem('hwconv', 'inktext', 'Convert to text…') + ctxItem('hwcopy', 'copytext', 'Copy as text');
       else h += `<button class="mi" disabled>${svg('inktext')}<span>Convert to text (Windows app)</span></button>`;
+      if(hwCan()) h += ctxItem('mwork', 'workout', 'Work it out…');
       if(ink.length >= 3) h += ctxItem('tidyink', 'tidy', 'Tidy writing');
       if(sel.some(o => o.type === 'stroke' && o.tool === 'pen')) h += ctxItem('fix', 'wand', 'Fix shapes');
       h += ctxItem('inkhl', 'pen', sel.some(o => o.tool !== 'hl') ? 'Turn into highlighter' : 'Turn into ink');
@@ -18805,6 +19057,7 @@ function openCtxMenu(e){
     h += '<div class="mhr"></div>';
     h += ctxItem('undo', 'undo', 'Undo', mod + 'Z', history.length ? '' : 'disabled') + ctxItem('redo', 'redo', 'Redo', mod + 'Y', future.length ? '' : 'disabled');
     h += ctxItem('fit', 'fit', 'Show everything', mod + '0') + ctxItem('paper', 'dots', 'Paper and colour…');
+    h += ctxItem('pages', 'a4', board.pages ? 'A4 pages…' : 'Use A4 pages…') + ctxItem('sideby', 'sideby', 'Side by side…');
   }
   pop.innerHTML = h;
   pop.hidden = false; document.querySelectorAll('.popover').forEach(p => { if(p !== pop) p.hidden = true; }); document.body.classList.add('menuopen');
@@ -18841,6 +19094,7 @@ $('#ctxMenu').addEventListener('click', async e => {
   if(k === 'cut'){ ctxCopy(); deleteSel(); }
   else if(k === 'copy'){ ctxCopy(); toast('Copied. Right-click the board to paste it somewhere.'); }
   else if(k === 'paste' || k === 'pastehere') ctxPasteAt(at.w);
+  else if(k === 'mwork') mathsWorkStart();
   else if(k === 'hwconv') hwConvertStart(false);
   else if(k === 'hwcopy') hwConvertStart(true);
   else if(k === 'hwall'){ selection.clear(); objs().forEach(o => { if(isInk(o) && !o.locked && !layerFrozen(o)) selection.add(o.id); }); await hwConvertStart(true); selection.clear(); selectionChanged(); }
@@ -18855,6 +19109,8 @@ $('#ctxMenu').addEventListener('click', async e => {
   else if(k === 'selall' || k === 'selink'){ setTool('select'); selection.clear(); objs().forEach(o => { if(!o.locked && !layerFrozen(o) && (k === 'selall' || isInk(o))) selection.add(o.id); }); selectionChanged(); }
   else if(k === 'undo') undo(); else if(k === 'redo') redo(); else if(k === 'fit') fitView();
   else if(k === 'paper') $('#bgBtn').click();
+  else if(k === 'pages') pagesOpen();
+  else if(k === 'sideby') sideOpen();
   else selDo(k, anchor);
 });
 let ctxImageAt = null;

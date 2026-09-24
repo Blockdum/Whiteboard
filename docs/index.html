@@ -372,7 +372,7 @@ button{font-family:var(--font)}
 :root[data-theme="dark"] .hwstatus.ok{color:#7FD08F}
 .hwread{margin:2px 0;font:600 18px var(--font);min-height:1.5em}.hwread small{display:block;font:500 12.5px var(--font);opacity:.65;margin-top:4px}.hwread.wait{opacity:.55;font-size:14px}.hwread.bad{color:var(--danger);font:500 13.5px var(--font)}
 .mhr{height:1px;background:var(--ui-border);margin:6px 4px}
-body:has(#ctxMenu:not([hidden])) #selbar,body:has(#hwPop:not([hidden])) #selbar{visibility:hidden !important}
+body.menuopen #selbar{visibility:hidden !important}
 .ctxmenu{min-width:236px;padding:6px}.ctxmenu .mi{padding:7px 10px;font-size:13.5px}.ctxmenu .mi svg{width:17px;height:17px}
 .ctxmenu .cxquick{display:flex;justify-content:space-between;gap:2px;padding:2px}.ctxmenu .cxquick .ib{width:40px;height:36px}.ctxmenu .cxquick .ib.danger{color:var(--danger)}
 .ctxmenu .cxquick .ib svg,.ctxmenu .cxrow .ib svg{width:19px;height:19px}
@@ -531,12 +531,12 @@ body.replaying .tray,body.replaying .selbar{display:none!important}
 .livebox .lvcard.off{opacity:.55}.livebox .lvcard .btn{align-self:flex-start}
 .livebox .lvrow{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.livebox .lvrow .mx{flex:1}
 .livebox .mx{box-sizing:border-box;font:500 15px var(--font);padding:8px 10px;border-radius:10px;border:1px solid var(--ui-border);background:var(--ui-bg);color:inherit}
-.livebox .lvname{display:flex;flex-direction:column;gap:4px;font:600 12.5px var(--font)}
+.livebox .lvname,#settings .lvname{display:flex;flex-direction:column;gap:5px;font:600 12.5px var(--font);margin:4px 0 8px}#settings .lvname .mx{width:100%;font-size:14.5px}#settings .row .btn{flex:none}
 .livebox .lvcode{display:flex;align-items:baseline;gap:10px;margin:6px 0}.livebox .lvcode b{font:800 34px var(--font);letter-spacing:6px}.livebox .lvcode small{font:600 12px var(--font);opacity:.7}
 .livebox .lvnet{border-color:var(--accent);background:var(--accent-soft)}.livebox .lvnet .lvcode b{font-size:28px;letter-spacing:3px}
 .livebox .lvcard em.lvok,.livebox .lvcard em.lvwait{display:inline-block;margin-left:6px;padding:1px 8px;border-radius:999px;font:700 11.5px var(--font);opacity:1;background:#46A758;color:#fff;vertical-align:1px}.livebox .lvcard em.lvwait{background:var(--warn)}
 .livebox .lvlink{display:flex;gap:8px}.livebox .lvlink .mx{flex:1;min-width:0;font:500 12.5px var(--font)}
-.livebox .lvsteps{margin:4px 0 10px;padding-left:22px;font:500 13.5px/1.55 var(--font)}.livebox .lvsteps li{margin:3px 0}
+.livebox .lvsteps,#settings .lvsteps{margin:4px 0 10px;padding-left:22px;font:500 13.5px/1.55 var(--font)}.livebox .lvsteps li,#settings .lvsteps li{margin:3px 0}
 .livebox .lvseg{align-self:flex-start;margin:2px 0}.livebox .lvsmall{font-weight:500;opacity:.8}
 .livepill .livenet svg{width:13px;height:13px;margin-left:5px;vertical-align:-2px;fill:none;stroke:currentColor;stroke-width:2}
 .livebox .lvhow{display:flex;flex-direction:column;gap:2px;margin:6px 0;font:500 13px var(--font)}.livebox code{font:600 13px ui-monospace,Consolas,monospace;background:var(--ui-hover);padding:2px 6px;border-radius:6px;user-select:all}
@@ -596,8 +596,29 @@ select{padding-right:28px;background-image:url("data:image/svg+xml,%3Csvg xmlns=
 select:hover, input[type="date"]:hover, input[type="number"]:hover{border-color:var(--accent)}
 select:focus-visible, input[type="date"]:focus-visible, input[type="number"]:focus-visible{outline:2px solid var(--accent);outline-offset:-1px}
 select option{background:var(--ui-solid);color:var(--ui-text)}
-input[type="date"]::-webkit-calendar-picker-indicator{cursor:pointer;opacity:.6}
-input[type="date"]::-webkit-calendar-picker-indicator:hover{opacity:1}
+/* every typing box gets the app's look unless something more specific styles it (these rules count for nothing, so anything else wins) */
+:where(input.mx, input:not([class]):not([type]), input:not([class])[type="text"], input:not([class])[type="search"], input:not([class])[type="password"], input:not([class])[type="email"], input:not([class])[type="url"], textarea.mx, textarea:not([class])){
+  box-sizing:border-box;font:500 14px var(--font);padding:7px 10px;border-radius:9px;border:1px solid var(--ui-border);background:var(--ui-solid);color:var(--ui-text);outline:none;min-width:0}
+:where(input.mx, input:not([class]):not([type]), input:not([class])[type="text"], input:not([class])[type="search"], input:not([class])[type="password"], input:not([class])[type="email"], input:not([class])[type="url"], textarea.mx, textarea:not([class])):focus-visible{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+:where(input.mx, input:not([class]):not([type]), input:not([class])[type="text"], input:not([class])[type="search"], input:not([class])[type="password"], input:not([class])[type="email"], input:not([class])[type="url"], textarea.mx, textarea:not([class]))::placeholder{color:var(--ui-text);opacity:.45}
+:where(textarea.mx, textarea:not([class])){line-height:1.45;resize:vertical}
+/* date boxes open the app's own calendar (Windows' built-in one ignores the theme) */
+input[type="date"]::-webkit-calendar-picker-indicator{display:none}
+input[type="date"]{padding-right:30px;background-repeat:no-repeat;background-position:right 8px center;background-size:15px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2' stroke-linecap='round'%3E%3Crect x='3.5' y='5' width='17' height='15' rx='2.5'/%3E%3Cpath d='M3.5 10h17M8 3v4M16 3v4'/%3E%3C/svg%3E")}
+.datepop{position:fixed;z-index:120;background:var(--ui-solid);color:var(--ui-text);border:1px solid var(--ui-border);box-shadow:var(--shadow);border-radius:14px;padding:10px;width:264px;font-family:var(--font)}
+.datepop[hidden]{display:none}
+.datepop .dphead{display:flex;align-items:center;gap:4px;margin-bottom:6px}.datepop .dphead b{flex:1;text-align:center;font:700 14px var(--font)}
+.datepop .dphead button,.datepop .dpfoot button{appearance:none;border:0;background:transparent;color:inherit;border-radius:8px;cursor:pointer;font:600 13px var(--font);padding:6px 9px}
+.datepop .dphead button{width:32px;height:30px;font-size:17px;padding:0}.datepop .dphead button:hover,.datepop .dpfoot button:hover{background:var(--ui-hover)}
+.datepop .dpgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+.datepop .dpgrid span{font:700 11px var(--font);opacity:.5;text-align:center;padding:4px 0}
+.datepop .dpgrid button{appearance:none;border:0;background:transparent;color:inherit;height:32px;border-radius:9px;font:500 13px var(--font);cursor:pointer;font-variant-numeric:tabular-nums}
+.datepop .dpgrid button:hover{background:var(--ui-hover)}.datepop .dpgrid button.out{opacity:.35}.datepop .dpgrid button:disabled{opacity:.18;cursor:default;background:transparent}
+.datepop .dpgrid button.today{box-shadow:inset 0 0 0 1.5px var(--accent);color:var(--accent);font-weight:700}
+.datepop .dpgrid button.on{background:var(--accent);color:#fff;font-weight:700;box-shadow:none}
+:root[data-theme="dark"] .datepop .dpgrid button.on{color:#111}@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .datepop .dpgrid button.on{color:#111}}
+.datepop .dpfoot{display:flex;justify-content:space-between;margin-top:6px;border-top:1px solid var(--ui-border);padding-top:6px}.datepop .dpfoot button{color:var(--accent)}
 .pacepill{position:fixed;right:12px;bottom:72px;padding:6px 12px;font:500 12.5px var(--font);z-index:12;display:flex;gap:6px;align-items:center}
 .pacepill[hidden],.favbar[hidden]{display:none}.pacepill b{font-weight:700}
 .favbar{position:fixed;left:12px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:4px;padding:6px;z-index:12}
@@ -3960,7 +3981,7 @@ function mathShapeLines(o){
 const PEN_TOOLS = ['pen1','pen2','pen3'];
 const POP_TOOLS = ['bucket','select','pen1','pen2','pen3','hl','eraser','shape','text','note','sticker'];
 const FILE_EXT = '.whiteboard';
-const APP_VERSION = '5.0.0', PUBLISHER = 'Blockdum';
+const APP_VERSION = '5.0.1', PUBLISHER = 'Blockdum';
 const GRID = 32;
 const MIME = 'application/x-whiteboard';
 
@@ -5330,7 +5351,7 @@ async function renderSettings(){
       <label class="lvname">Shown next to your pointer when you share<input class="mx" data-lvnameset value="${esc(prefs.shareName || '')}" placeholder="So others know who's drawing" maxlength="30"></label>
       <h3>Over the internet</h3>
       <p class="note-text" style="max-width:none">Sharing with people who aren't on your Wi-Fi goes through your own relay on Cloudflare (free). It passes messages along and keeps nothing. ${native ? 'Set it up once:' : 'The person sharing needs the Windows app. You can join from here with their code or link.'}</p>
-      ${native ? `<ol class="lvsteps"><li>Make a free account at <b>cloudflare.com</b>.</li><li>In a terminal: <code>npm install -g wrangler</code>, then <code>wrangler login</code>.</li><li>In the <b>relay</b> folder from the source zip: <code>wrangler deploy</code>.</li><li>Paste the address it prints below.</li></ol>` : ''}
+      ${native ? `<ol class="lvsteps"><li>Make a free account at <b>cloudflare.com</b>.</li><li>On GitHub, make a repo called <b>whiteboard-relay</b> and upload the three files from <b>Whiteboard-relay.zip</b>.</li><li>In Cloudflare: <b>Workers &amp; Pages → Create → Import a repository</b>, connect GitHub, pick whiteboard-relay and deploy.</li><li>Paste the address it shows below.</li></ol>` : ''}
       <label class="lvname">Relay address<input class="mx" data-relayset value="${esc(prefs.relayUrl || '')}" placeholder="whiteboard-relay.yourname.workers.dev" spellcheck="false"></label>
       <div class="row" style="gap:8px">${native ? `<button class="btn primary" data-set="relaytest">Check and save</button>` : `<button class="btn primary" data-set="relaysave">Save</button>`}${rh ? `<button class="btn" data-set="relayclear">Remove</button>` : ''}</div>
       <p class="note-text" id="relayOut" style="max-width:none">${rh ? `Using ${esc(rh)}` : 'Not set up yet.'}</p>`);
@@ -9889,7 +9910,7 @@ $('#layerPop').addEventListener('dblclick', e => {
 function dropFrozenSel(){ for(const o of getSelected()) if(layerFrozen(o)) selection.delete(o.id); }
 $('#layerBtn').addEventListener('click', () => { const p = $('#layerPop'); if(!p.hidden) closePopovers(); else openLayerPop(); });
 
-function changed(){ recTag(); liveChanged(); normLayers(); requestRender(); scheduleSave(); updateUndo(); slidesBar(); hwSoon(); }
+function changed(){ recTag(); liveChanged(); normLayers(); requestRender(); scheduleSave(); updateUndo(); slidesBar(); }
 
 /* ================= saving: library + linked file ================= */
 let saveTimer = null, dirty = false, viewTimer = null, libState = 'saved';
@@ -10628,12 +10649,12 @@ function liveBoxDraw(view){
   } else if(view === 'setup'){
     const host = relayHost(prefs.relayUrl);
     body = `<h3>Set up internet sharing</h3>
-      <p class="note-text" style="max-width:none">Sharing over the internet goes through a small relay that runs free on your own Cloudflare account. It only passes messages along: nothing is kept on it. You set it up once, in about 10 minutes.</p>
+      <p class="note-text" style="max-width:none">Sharing over the internet goes through a small relay that runs free on your own Cloudflare account. It only passes messages along: nothing is kept on it. You set it up once, in about 10 minutes, with nothing to install.</p>
       <ol class="lvsteps">
         <li>Make a free account at <b>cloudflare.com</b> and confirm your email.</li>
-        <li>In a terminal: <code>npm install -g wrangler</code>, then <code>wrangler login</code> and click Allow.</li>
-        <li>Open the <b>relay</b> folder (it comes with the source zip) in a terminal and run <code>wrangler deploy</code>.</li>
-        <li>It prints an address like <code>whiteboard-relay.yourname.workers.dev</code>. Paste it here.</li>
+        <li>On GitHub, make a repo called <b>whiteboard-relay</b> and upload the three files from <b>Whiteboard-relay.zip</b>.</li>
+        <li>In Cloudflare: <b>Workers &amp; Pages → Create → Import a repository</b>, connect GitHub, pick whiteboard-relay and deploy.</li>
+        <li>It shows an address like <code>whiteboard-relay.yourname.workers.dev</code>. Paste it here.</li>
       </ol>
       <label class="lvname">Relay address<input class="mx" data-lvrelay value="${esc(prefs.relayUrl || '')}" placeholder="whiteboard-relay.yourname.workers.dev" spellcheck="false"></label>
       <div class="lvrow"><button class="btn primary" data-lv="relaytest">Check and save</button><button class="btn" data-lv="back">Back</button></div>
@@ -14678,6 +14699,7 @@ $('#toolPop').addEventListener('input', e => {
   savePrefs(); updateTray();
 });
 function showPopover(pop, anchor, place){
+  document.body.classList.remove('menuopen');
   if(pop.id !== 'graphPop') finishGraphEdit();
   document.querySelectorAll('.popover').forEach(p => { if(p !== pop) p.hidden = true; });
   pop.hidden = false;
@@ -14688,7 +14710,7 @@ function showPopover(pop, anchor, place){
   pop.style.left = clamp(left, 8, W - pw - 8) + 'px';
   pop.style.top = (place === 'above' ? Math.max(8, r.top - ph - 10) : Math.min(r.bottom + 8, H - ph - 8)) + 'px';
 }
-function closePopovers(){ document.querySelectorAll('.popover').forEach(p => p.hidden = true); finishGraphEdit(); }
+function closePopovers(){ document.querySelectorAll('.popover').forEach(p => p.hidden = true); document.body.classList.remove('menuopen'); finishGraphEdit(); }
 document.addEventListener('pointerdown', e => {
   if(!e.target.closest('.popover') && !e.target.closest('#tray') && !e.target.closest('.topr') && !e.target.closest('#confirmBox') && !(graphEdit && e.target === canvas && graphAt({x:e.clientX, y:e.clientY}))) closePopovers();
 }, true);
@@ -18491,6 +18513,50 @@ $('#zoomOut').addEventListener('click', () => zoomAt({x:W/2, y:H/2}, 0.8));
 $('#zoomLabel').addEventListener('click', () => zoomAt({x:W/2, y:H/2}, 1/board.view.z));
 $('#fitBtn').addEventListener('click', fitView);
 
+/* ================= the app's own calendar for date boxes ================= */
+let dpInput = null, dpMonth = null;
+function dpISO(d){ return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; }
+function dpParse(v){ const m = /^(\d{4})-(\d\d)-(\d\d)$/.exec(v || ''); return m ? new Date(+m[1], m[2] - 1, +m[3]) : null; }
+function dpOpen(inp){
+  let pop = $('#datePop'); if(!pop){ pop = document.createElement('div'); pop.id = 'datePop'; pop.className = 'datepop'; pop.setAttribute('role', 'dialog'); pop.setAttribute('aria-label', 'Choose a date'); pop.hidden = true; document.body.appendChild(pop); dpWire(pop); }
+  dpInput = inp; const d = dpParse(inp.value) || new Date(); dpMonth = new Date(d.getFullYear(), d.getMonth(), 1);
+  dpDraw(); pop.hidden = false;
+  const r = inp.getBoundingClientRect(), pw = pop.offsetWidth, ph = pop.offsetHeight;
+  pop.style.left = clamp(r.left, 8, innerWidth - pw - 8) + 'px';
+  pop.style.top = (r.bottom + ph + 8 > innerHeight ? Math.max(8, r.top - ph - 6) : r.bottom + 6) + 'px';
+}
+function dpClose(){ const p = $('#datePop'); if(p) p.hidden = true; dpInput = null; }
+function dpDraw(){
+  const pop = $('#datePop'), sel = dpParse(dpInput.value), today = dpISO(new Date()), min = dpInput.min || '', max = dpInput.max || '';
+  const y = dpMonth.getFullYear(), m = dpMonth.getMonth(), start = new Date(y, m, 1 - ((new Date(y, m, 1).getDay() + 6) % 7));   // weeks start on Monday
+  let cells = '';
+  for(let i = 0; i < 42; i++){ const d = new Date(start.getFullYear(), start.getMonth(), start.getDate() + i), iso = dpISO(d);
+    cells += `<button type="button" data-dpd="${iso}" class="${d.getMonth() !== m ? 'out' : ''} ${iso === today ? 'today' : ''} ${sel && iso === dpISO(sel) ? 'on' : ''}" ${(min && iso < min) || (max && iso > max) ? 'disabled' : ''}>${d.getDate()}</button>`; }
+  pop.innerHTML = `<div class="dphead"><button type="button" data-dpm="-1" aria-label="Previous month">‹</button><b>${dpMonth.toLocaleDateString(undefined, {month:'long', year:'numeric'})}</b><button type="button" data-dpm="1" aria-label="Next month">›</button></div>
+    <div class="dpgrid">${['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'].map(w => `<span>${w}</span>`).join('')}${cells}</div>
+    <div class="dpfoot"><button type="button" data-dpx="clear">Clear</button><button type="button" data-dpx="today">Today</button></div>`;
+}
+function dpSet(v){ const inp = dpInput; if(!inp) return; inp.value = v; inp.dispatchEvent(new Event('input', {bubbles:true})); inp.dispatchEvent(new Event('change', {bubbles:true})); dpClose(); inp.focus(); }
+function dpWire(pop){
+  pop.addEventListener('pointerdown', e => e.stopPropagation());
+  pop.addEventListener('click', e => {
+    e.stopPropagation();
+    const mb = e.target.closest('[data-dpm]'); if(mb){ dpMonth = new Date(dpMonth.getFullYear(), dpMonth.getMonth() + +mb.dataset.dpm, 1); dpDraw(); return; }
+    const d = e.target.closest('[data-dpd]'); if(d && !d.disabled){ dpSet(d.dataset.dpd); return; }
+    const x = e.target.closest('[data-dpx]'); if(x) dpSet(x.dataset.dpx === 'today' ? dpISO(new Date()) : '');
+  });
+  pop.addEventListener('wheel', e => { e.preventDefault(); dpMonth = new Date(dpMonth.getFullYear(), dpMonth.getMonth() + (e.deltaY > 0 ? 1 : -1), 1); dpDraw(); }, {passive:false});
+  pop.addEventListener('keydown', e => { e.stopPropagation(); if(e.key === 'Escape'){ const i = dpInput; dpClose(); if(i) i.focus(); } });
+}
+document.addEventListener('click', e => { const inp = e.target.closest && e.target.closest('input[type="date"]'); if(inp && !inp.disabled && !inp.readOnly){ if(dpInput === inp && !$('#datePop').hidden) dpClose(); else dpOpen(inp); } }, true);
+document.addEventListener('keydown', e => {
+  const inp = e.target; if(!inp.matches || !inp.matches('input[type="date"]')) return;
+  if(e.key === 'F4' || (e.altKey && e.key === 'ArrowDown') || e.key === ' '){ e.preventDefault(); dpOpen(inp); }
+  else if(e.key === 'Escape' || e.key === 'Tab') dpClose();
+}, true);
+document.addEventListener('pointerdown', e => { if(dpInput && !e.target.closest('#datePop') && e.target !== dpInput) dpClose(); }, true);
+addEventListener('resize', () => dpClose());
+
 /* ================= reading handwriting (Windows' own recogniser, on this computer) =================
    Ink is split into lines of writing, each line scaled to a normal writing size and handed to Windows, and the
    words come back. Used for "Convert to text", "Copy as text" and for searching your handwriting. */
@@ -18585,7 +18651,7 @@ async function hwConvertStart(copyOnly){
     <label class="toggle">Keep the handwriting too<input type="checkbox" data-hwkeep></label>
     <div class="row hwbtns"><button class="btn" data-hw="copy">Copy</button><button class="btn" data-hw="cancel">Cancel</button><button class="btn primary" data-hw="go">Convert</button></div>`;
   hwConv.guesses = guesses;
-  showPopover(pop, null, 'center');
+  showPopover(pop, null, 'center'); document.body.classList.add('menuopen');
   const ta = pop.querySelector('textarea'); ta.focus(); ta.setSelectionRange(ta.value.length, ta.value.length);
 }
 function hwConvertApply(text, keep){
@@ -18741,7 +18807,7 @@ function openCtxMenu(e){
     h += ctxItem('fit', 'fit', 'Show everything', mod + '0') + ctxItem('paper', 'dots', 'Paper and colour…');
   }
   pop.innerHTML = h;
-  pop.hidden = false; document.querySelectorAll('.popover').forEach(p => { if(p !== pop) p.hidden = true; });
+  pop.hidden = false; document.querySelectorAll('.popover').forEach(p => { if(p !== pop) p.hidden = true; }); document.body.classList.add('menuopen');
   const pw = pop.offsetWidth, ph = pop.offsetHeight;
   pop.style.left = (pt.x + pw + 8 > W ? Math.max(8, pt.x - pw) : pt.x) + 'px';
   pop.style.top = (pt.y + ph + 8 > H ? Math.max(8, H - ph - 8) : pt.y) + 'px';
